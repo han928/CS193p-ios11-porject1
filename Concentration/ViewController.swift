@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var flipCountLabel: UILabel!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     @IBOutlet private var cardButtons: [UIButton]!
     
     @IBAction private func touchCard(_ sender: UIButton) {
@@ -27,6 +29,9 @@ class ViewController: UIViewController {
             
             // update flipCountLabel
             flipCountLabel.text = "Flips: \(game.flipCount)"
+            
+            // update scoreLabel
+            scoreLabel.text = "Scores: \(game.score)"
 
         } else {
             print("chosen card not in cardButtons")
@@ -49,6 +54,12 @@ class ViewController: UIViewController {
         // set flipCountLabel to 0
         flipCountLabel.text = "Flips: \(game.flipCount)"
         
+        
+        // set scoreLabel to 0
+        scoreLabel.text = "Scores: \(game.score)"
+
+        
+        // TODO: This block of code is hideous. need more modularity
         //initialize new theme
         emojiChoices = emojiTheme[currentTheme]!
         emoji =  [Int:String]()

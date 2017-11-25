@@ -12,7 +12,21 @@ class Concentration
 {
     private(set) var cards = [Card]()
     
-    private(set) var flipCount = 0
+    var flipCount = 0
+    
+    //TODO: Concentration should hold score and update score.
+    private(set) var score = 0
+    /*
+     Scenarios for updating score:
+     First Card Flipped:
+         1. +0 if it has not been flipped
+         2. -1 if it has been flipped
+     
+     Second Card Flipped:
+        1. a match: +2
+        2. no match: go back to scenario as first card flipped
+    */
+    
     
     private var indexOfOneAndOnlyFaceUpCard: Int?
     {
@@ -43,20 +57,36 @@ class Concentration
         // update flipCount
         flipCount += 1
         
+        //
+        
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
+                    
+                    // scored
+                    score += 2
                 }
+                else {
+                    
+                    let isFlipedMultiplier =  Int(truncating: NSNumber(value:cards[index].isFliped)) + Int(truncating: NSNumber(value:cards[matchIndex].isFliped))
+                    // no match and cards been flipped
+                    score -= (1 * isFlipedMultiplier)
+                }
+                
+                cards[index].isFliped = true
+                cards[matchIndex].isFliped = true
+
                 cards[index].isFaceUp = true
                 
             } else {
                 indexOfOneAndOnlyFaceUpCard = index
             }
         }
-    
+        
+        print("Score is \(score)")
     }
     
     
@@ -71,7 +101,7 @@ class Concentration
         // initialize flipCount
         flipCount = 0
         
-        // TODO: Shuffle the cards
+        // Shuffle the cards
         var tempCard = [Card]()
         
         for _ in 0..<cards.count {
