@@ -12,6 +12,8 @@ class Concentration
 {
     private(set) var cards = [Card]()
     
+    private(set) var flipCount = 0
+    
     private var indexOfOneAndOnlyFaceUpCard: Int?
     {
         get {
@@ -37,8 +39,14 @@ class Concentration
     
     
     
+    
+    
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): chosen index not in the cards")
+        
+        // update flipCount
+        flipCount += 1
+        
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
@@ -63,6 +71,9 @@ class Concentration
             let card = Card()
             cards += [card, card]
         }
+        
+        // initialize flipCount
+        flipCount = 0
         
         // TODO: Shuffle the cards
         var tempCard = [Card]()
