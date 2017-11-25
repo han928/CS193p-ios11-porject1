@@ -16,14 +16,6 @@ class ViewController: UIViewController {
             return (cardButtons.count + 1) / 2
     }
     
-    
-    // TODO: get flipCount from Concnetration calss and also update text label
-//    private(set) var flipCount = 0 {
-//        didSet {
-//            flipCountLabel.text = "Flips: \(flipCount)"
-//        }
-//    }
-
     @IBOutlet private weak var flipCountLabel: UILabel!
     
     @IBOutlet private var cardButtons: [UIButton]!
@@ -56,14 +48,18 @@ class ViewController: UIViewController {
         
         // set flipCountLabel to 0
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        
+        //initialize new theme
+        emojiChoices = emojiTheme[currentTheme]!
+        emoji =  [Int:String]()
+        currentTheme = Array(emojiTheme.keys)[emojiTheme.keys.count.arc4random]
 
     }
     
     
+    
+    
     private func updateViewFromModel(){
-        // TODO: probably have to choose theme starting here when we first updated the view
-        
-        
         for index in cardButtons.indices {
             
             let button = cardButtons[index]
@@ -79,8 +75,9 @@ class ViewController: UIViewController {
         }
     }
     
-    
-    private var emojiChoices = ["🎃", "👻", "😃", "🐸", "🦄", "🍔", "🌮", "🤪", "😎"]
+    // choose a currentTheme randomly but use lazy
+    private lazy var currentTheme = Array(emojiTheme.keys)[emojiTheme.keys.count.arc4random]
+    private lazy var emojiChoices = emojiTheme[currentTheme]!
     private var emoji =  [Int:String]()
 
     
@@ -92,12 +89,10 @@ class ViewController: UIViewController {
                               "transportation": ["🚗", "🚕", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚲", "🛵"],
                               "flags": ["🏳️", "🏁", "🚩", "🇦🇽", "🇦🇬", "🇦🇿", "🇨🇼", "🇫🇰", "🇲🇵", "🇹🇼"]]
     
-    
-    // Generate a dictionary where key is the name of the theme and value is a dictionary of index vs. emoji
-    private var emojiThemeIndices = [String:[Int:String]]()
-    
+
     
     private func emoji(for card: Card) -> String {
+        
         if emoji[card.identifier] == nil,  emojiChoices.count > 0 {
             emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
         }

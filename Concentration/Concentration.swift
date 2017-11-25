@@ -37,10 +37,6 @@ class Concentration
     }
     
     
-    
-    
-    
-    
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): chosen index not in the cards")
         
